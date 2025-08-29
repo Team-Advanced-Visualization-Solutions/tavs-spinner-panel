@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@grafana/*": ["node_modules/@grafana/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

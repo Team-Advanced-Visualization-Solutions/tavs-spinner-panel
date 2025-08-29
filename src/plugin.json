@@ -1,0 +1,59 @@
+{
+  "type": "panel",
+  "name": "Spinner",
+  "id": "tavs-spinner-panel",
+  "license": "MIT",
+  "info": {
+    "description": "Animated spinner with speed based on metrics",
+    "author": {
+      "name": "Team Advanced Visualization Solutions",
+      "url": "https://github.com/Team-Advanced-Visualization-Solutions"
+    },
+    "contributors": [
+    {
+      "name": "Andrew Silaev",
+      "url": "https://github.com/AndrewSilaev"
+    },
+    {
+      "name": "Team Advanced Visualization Solutions",
+      "url": "https://github.com/Team-Advanced-Visualization-Solutions"
+    }
+    ],
+    "metrics": {
+      "enable": true,
+      "description": "Supports numeric metrics for controlling spinner speed and value display."
+    },
+    "keywords": ["spinner", "gradient", "animation", "metric"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Repository",
+        "url": "https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel"
+      },
+      {
+        "name": "Website",
+        "url": "https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/blob/main/LICENSE"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Demo",
+        "path": "img/screenshot.png"
+      }
+    ],
+    "version": "1.0.0",
+    "updated": "2025-08-30"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=12.0.0",
+    "plugins": []
+  },
+  "signature": "unsigned"
+}
