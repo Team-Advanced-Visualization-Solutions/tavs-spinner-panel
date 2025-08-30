@@ -1,3 +1,5 @@
+// webpack.config.js
+
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -69,5 +71,8 @@ module.exports = {
         },
       }),
     ],
+  },
+  performance: {
+    hints: false, // Отключаем предупреждения о больших файлах
   },
 };
