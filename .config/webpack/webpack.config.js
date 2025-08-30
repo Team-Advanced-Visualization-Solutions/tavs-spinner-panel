@@ -45,7 +45,7 @@ module.exports = {
     path: path.resolve(__dirname, '../../dist'), // Выходная директория
     filename: 'module.js', // Имя выходного файла
     libraryTarget: 'amd', // Целевой формат библиотеки
-    devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]', // Используем абсолютные пути для source maps
+    devtoolModuleFilenameTemplate: 'webpack:///[relative-resource-path]', // Используем относительные пути для source maps
   },
   externals: {
     // Внешние зависимости
