@@ -6,7 +6,7 @@ interface Props extends PanelProps<SpinnerOptions> {}
 
 export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const animationRef = useRef<number | undefined>(0);
+  const animationRef = useRef<number | undefined>(undefined);
   const [currentValue, setCurrentValue] = useState<number>(0);
   const [rotation, setRotation] = useState<number>(0);
 

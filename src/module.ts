@@ -1,4 +1,3 @@
-
 import { PanelPlugin } from '@grafana/data';
 import { SpinnerOptions } from './types';
 import { SpinnerPanel } from './components/SpinnerPanel';
