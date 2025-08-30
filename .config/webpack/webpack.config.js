@@ -4,7 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   mode: 'production', // Режим сборки
   entry: './src/module.ts', // Точка входа
-  cache: false, // Отключаем кэширование для избежания проблем
+  cache: false, // Отключаем кэширование
   devtool: 'source-map', // Генерация source maps
   module: {
     rules: [
@@ -13,7 +13,7 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            transpileOnly: false, // Отключаем transpileOnly для корректной проверки типов
+            transpileOnly: false, // Включаем проверку типов
             compilerOptions: {
               jsx: 'react-jsx', // Настройка JSX
             },
@@ -45,7 +45,7 @@ module.exports = {
     path: path.resolve(__dirname, '../../dist'), // Выходная директория
     filename: 'module.js', // Имя выходного файла
     libraryTarget: 'amd', // Целевой формат библиотеки
-    devtoolModuleFilenameTemplate: 'webpack:///[namespace]/[resource-path]', // Используем корректные пути
+    devtoolModuleFilenameTemplate: 'webpack:///[namespace]/[resource-path]', // Корректные относительные пути
   },
   externals: {
     // Внешние зависимости
