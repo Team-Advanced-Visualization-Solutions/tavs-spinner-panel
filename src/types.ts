@@ -12,4 +12,6 @@ export interface SpinnerOptions {
   showValue: boolean;
   valueFontSize: number;
   valueColor: string;
+  changeColorAtMax?: boolean; // Новое свойство (опциональное)
+  maxValueColor: string;
 }

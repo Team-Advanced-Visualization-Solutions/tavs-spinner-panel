@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SpinnerOptions } from '../types';
@@ -6,8 +5,8 @@ import { SpinnerOptions } from '../types';
 interface Props extends PanelProps<SpinnerOptions> {}
 
 export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animationRef = useRef<number | undefined>(0);
   const [currentValue, setCurrentValue] = useState<number>(0);
   const [rotation, setRotation] = useState<number>(0);
 
@@ -53,13 +52,13 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
 
       setRotation((prev) => (prev + speed * (deltaTime / 1000) * 6) % 360);
 
-      animationRef.current = requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame((time) => animate(time));
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    animationRef.current = requestAnimationFrame((time) => animate(time));
 
     return () => {
-      if (animationRef.current) {
+      if (animationRef.current !== undefined) {
         cancelAnimationFrame(animationRef.current);
       }
     };
@@ -85,15 +84,14 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
     ctx.clearRect(0, 0, width, height);
 
     // Фон
-    if (options.backgroundColor !== 'transparent') {
+    if (options.backgroundColor && options.backgroundColor !== 'transparent') {
       ctx.fillStyle = options.backgroundColor;
       ctx.fillRect(0, 0, width, height);
     }
 
     // Логика изменения цвета
-    const lineColor = options.changeColorAtMax && currentValue >= options.maxValue
-      ? options.maxValueColor
-      : options.lineColor;
+    const lineColor =
+      options.changeColorAtMax && currentValue >= options.maxValue ? options.maxValueColor : options.lineColor;
 
     // Рисуем линии
     ctx.save();
@@ -130,7 +128,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
-        background: options.backgroundColor,
+        background: options.backgroundColor || 'transparent',
         overflow: 'hidden',
         cursor: 'default', // Устанавливаем курсор по умолчанию
       }}
@@ -145,7 +143,6 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
           left: 0,
         }}
       />
-      
       {options.showValue && (
         <div
           style={{
