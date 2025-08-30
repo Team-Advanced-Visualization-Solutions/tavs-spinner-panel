@@ -33,11 +33,11 @@
         "path": "img/screenshot.png"
       }
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "updated": "2025-08-30"
   },
   "dependencies": {
-    "grafanaDependency": ">=12.0.0",
+    "grafanaDependency": ">=12.x.x",
     "plugins": []
   }
 }
