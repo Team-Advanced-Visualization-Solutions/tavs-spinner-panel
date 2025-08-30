@@ -5,6 +5,7 @@ module.exports = {
   mode: 'production',
   entry: './src/module.ts',
   cache: false,
+  devtool: 'source-map',
   module: {
     rules: [
       {
