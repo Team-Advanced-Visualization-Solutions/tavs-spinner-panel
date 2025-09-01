@@ -30,4 +30,5 @@ git clone https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-
 cd tavs-spinner-panel
 npm install
 npm run build
+
 # Copy dist/ to your plugins directory
