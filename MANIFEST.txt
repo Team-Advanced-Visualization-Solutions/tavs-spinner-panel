@@ -1,0 +1,5 @@
+Plugin: tavs-spinner-panel
+Type: panel
+Version: 1.0.0
+Author: Team Advanced Visualization Solutions
+Description: Animated spinner panel with rotation speed based on metric values. Perfect for visualizing real-time metrics with dynamic animation.
