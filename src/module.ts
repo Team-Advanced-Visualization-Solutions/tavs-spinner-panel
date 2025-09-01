@@ -105,3 +105,4 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         defaultValue: '#ffffff',
       });
   });
+

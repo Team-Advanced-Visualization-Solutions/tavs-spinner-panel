@@ -21,7 +21,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
       return 0;
     }
 
-    return field.values.get(field.values.length - 1);
+    return field.values[field.values.length - 1];
   }, [data]);
 
   // Расчет скорости вращения
@@ -161,3 +161,4 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
     </div>
   );
 };
+

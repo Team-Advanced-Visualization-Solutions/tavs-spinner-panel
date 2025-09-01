@@ -15,3 +15,5 @@ export interface SpinnerOptions {
   changeColorAtMax?: boolean; // Новое свойство (опциональное)
   maxValueColor: string;
 }
+
+
