@@ -7,102 +7,121 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
     return builder
       .addNumberInput({
         path: 'minValue',
-        name: 'Минимальное значение',
-        description: 'Значение, соответствующее минимальной скорости',
+        name: 'Minimum value',
+        description: 'Value corresponding to the minimum speed',
         defaultValue: 0,
       })
       .addNumberInput({
         path: 'maxValue',
-        name: 'Максимальное значение',
-        description: 'Значение, соответствующее максимальной скорости',
+        name: 'Maximum value',
+        description: 'Value corresponding to the maximum speed',
         defaultValue: 100,
       })
       .addNumberInput({
         path: 'minSpeed',
-        name: 'Минимальная скорость (об/мин)',
-        description: 'Скорость вращения при минимальном значении',
-        defaultValue: 0.5,
+        name: 'Minimum speed (RPM)',
+        description: 'Rotation speed at the minimum value (1-100)',
+        defaultValue: 1,
+        settings: {
+          min: 1,
+          max: 100,
+          step: 1,
+        },
       })
       .addNumberInput({
         path: 'maxSpeed',
-        name: 'Максимальная скорость (об/мин)',
-        description: 'Скорость вращения при максимальном значении',
+        name: 'Maximum speed (RPM)',
+        description: 'Rotation speed at the maximum value (1-100)',
         defaultValue: 60,
+        settings: {
+          min: 1,
+          max: 100,
+          step: 1,
+        },
       })
       .addNumberInput({
         path: 'lineWidth',
-        name: 'Толщина линии',
-        description: 'Толщина линии в пикселях',
+        name: 'Line thickness',
+        description: 'Line thickness in pixels (1-100)',
         defaultValue: 10,
+        settings: {
+          min: 1,
+          max: 100, 
+          step: 1,
+        },
       })
       .addColorPicker({
         path: 'lineColor',
-        name: 'Цвет линии',
-        description: 'Цвет вращающихся отрезков',
-        defaultValue: '#137a13ff', // Зеленый по умолчанию
+        name: 'Line color',
+        description: 'Color of the rotating segments',
+        defaultValue: '#137a13ff',
       })
       .addBooleanSwitch({
         path: 'changeColorAtMax',
-        name: 'Изменить цвет при достижении максимума',
-        description: 'Изменить цвет линии при достижении максимального значения',
+        name: 'Change color at maximum',
+        description: 'Change line color when reaching the maximum value',
         defaultValue: false,
       })
       .addColorPicker({
         path: 'maxValueColor',
-        name: 'Цвет при достижении максимума',
-        description: 'Цвет линии, когда значение достигает максимума',
-        defaultValue: '#ff0000', // Красный по умолчанию
-        showIf: (options) => options.changeColorAtMax, // Показывать только если переключатель включен
+        name: 'Color at maximum',
+        description: 'Line color when the value reaches the maximum',
+        defaultValue: '#ff0000', 
+        showIf: (options) => options.changeColorAtMax, // Show only if the switch is enabled
       })
       .addNumberInput({
         path: 'segmentsCount',
-        name: 'Количество отрезков',
-        description: 'На сколько частей разделить линию (1-6)',
-        defaultValue: 6, // 6 по умолчанию
+        name: 'Number of segments',
+        description: 'Number of parts to divide the line into (1-20)',
+        defaultValue: 6, 
         settings: {
           min: 1,
-          max: 6, // Увеличили до 6
+          max: 20,
           step: 1,
         },
       })
       .addNumberInput({
         path: 'segmentsGap',
-        name: 'Промежуток между отрезками',
-        description: 'Величина зазора между отрезками в градусах',
-        defaultValue: 20, // 45 по умолчанию
+        name: 'Gap between segments',
+        description: 'Size of the gap between segments in degrees (0-180)',
+        defaultValue: 20, 
         settings: {
           min: 0,
-          max: 45, // Увеличили до 45
+          max: 180, 
           step: 1,
         },
       })
       .addBooleanSwitch({
         path: 'roundedCaps',
-        name: 'Скругленные концы',
-        description: 'Скруглять концы отрезков',
-        defaultValue: true, // Выключено по умолчанию
+        name: 'Rounded ends',
+        description: 'Round the ends of the segments',
+        defaultValue: true, 
       })
       .addColorPicker({
         path: 'backgroundColor',
-        name: 'Цвет фона',
+        name: 'Background color',
         defaultValue: 'transparent',
       })
       .addBooleanSwitch({
         path: 'showValue',
-        name: 'Показывать значение',
-        description: 'Отображать текущее значение в центре',
+        name: 'Show value',
+        description: 'Display the current value in the center',
         defaultValue: true,
       })
       .addNumberInput({
         path: 'valueFontSize',
-        name: 'Размер шрифта значения',
-        description: 'Размер шрифта для отображения значения',
+        name: 'Value font size',
+        description: 'Font size for displaying the value',
         defaultValue: 16,
+        settings: {
+          min: 1,
+          max: 50, 
+          step: 1,
+        },
       })
       .addColorPicker({
         path: 'valueColor',
-        name: 'Цвет значения',
+        name: 'Value color',
         defaultValue: '#ffffff',
       });
   });
-

@@ -4,7 +4,7 @@
   "name": "TAVS Spinner",
   "id": "tavs-spinner-panel",
   "info": {
-    "description": "Animated spinner with speed based on metrics",
+    "description": "Animated spinner panel with rotation speed based on metric values. Perfect for visualizing real-time metrics with dynamic animation.",
     "author": {
       "name": "Team Advanced Visualization Solutions",
       "url": "https://github.com/Team-Advanced-Visualization-Solutions"

@@ -5,15 +5,13 @@ export interface SpinnerOptions {
   maxSpeed: number;
   lineWidth: number;
   lineColor: string;
-  segmentsCount: number;    // Количество отрезков (1-6)
-  segmentsGap: number;      // Промежуток между отрезками (0-45°)
-  roundedCaps: boolean;     // Скругленные концы линий
+  segmentsCount: number;
+  segmentsGap: number;
+  roundedCaps: boolean;
   backgroundColor: string;
   showValue: boolean;
   valueFontSize: number;
   valueColor: string;
-  changeColorAtMax?: boolean; // Новое свойство (опциональное)
+  changeColorAtMax?: boolean;
   maxValueColor: string;
 }
-
-
