@@ -20,10 +20,10 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
       .addNumberInput({
         path: 'minSpeed',
         name: 'Minimum speed (RPM)',
-        description: 'Rotation speed at the minimum value (1-100)',
+        description: 'Rotation speed at the minimum value (0-100)',
         defaultValue: 1,
         settings: {
-          min: 1,
+          min: 0,
           max: 100,
           step: 1,
         },
@@ -42,11 +42,11 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
       .addNumberInput({
         path: 'lineWidth',
         name: 'Line thickness',
-        description: 'Line thickness in pixels (1-100)',
+        description: 'Line thickness in pixels (1-40)',
         defaultValue: 10,
         settings: {
           min: 1,
-          max: 100, 
+          max: 40, 
           step: 1,
         },
       })
@@ -72,22 +72,22 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
       .addNumberInput({
         path: 'segmentsCount',
         name: 'Number of segments',
-        description: 'Number of parts to divide the line into (1-20)',
-        defaultValue: 6, 
+        description: 'Number of parts to divide the line into (1-8)',
+        defaultValue: 5, 
         settings: {
           min: 1,
-          max: 20,
+          max: 8,
           step: 1,
         },
       })
       .addNumberInput({
         path: 'segmentsGap',
         name: 'Gap between segments',
-        description: 'Size of the gap between segments in degrees (0-180)',
+        description: 'Size of the gap between segments in degrees (0-45)',
         defaultValue: 20, 
         settings: {
           min: 0,
-          max: 180, 
+          max: 45, 
           step: 1,
         },
       })
@@ -112,10 +112,10 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         path: 'valueFontSize',
         name: 'Value font size',
         description: 'Font size for displaying the value',
-        defaultValue: 16,
+        defaultValue: 14,
         settings: {
           min: 1,
-          max: 50, 
+          max: 24, 
           step: 1,
         },
       })
