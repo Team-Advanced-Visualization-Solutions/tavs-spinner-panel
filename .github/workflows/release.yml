@@ -26,11 +26,16 @@ jobs:
       - name: Sign plugin
         env:
           GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: npx --yes @grafana/sign-plugin@4
+
+      - name: Verify signature
         run: |
-          echo "Token length: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
-          npx --yes @grafana/sign-plugin@4 || true
-          ls -la dist/
-          cat dist/MANIFEST.txt 2>/dev/null || echo "No MANIFEST.txt"
+          if [ ! -f dist/MANIFEST.txt ]; then
+            echo "ERROR: Plugin was not signed. MANIFEST.txt is missing."
+            echo "Make sure GRAFANA_ACCESS_POLICY_TOKEN is set in repository secrets."
+            exit 1
+          fi
+          echo "Signature verified."
 
       - run: |
           cd dist
