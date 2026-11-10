@@ -4,12 +4,14 @@ Animated spinner panel with rotation speed based on metric values. Perfect for v
 
 ## Features
 
-- ⚡ **Speed based on metrics** - Rotation speed changes based on data values
-- 🔢 **Multiple segments** - Choose from 1 to 6 line segments
-- 🎨 **Fully customizable** - Colors, sizes, and display options
-- 📊 **Real-time display** - Show current value in center
-- 🎯 **Smooth animation** - 60 FPS smooth rotation with Retina support
-- ⚙️ **Easy configuration** - Intuitive settings panel
+- ⚡ **Speed based on metrics** — Rotation speed changes based on data values
+- 🔢 **Multiple segments** — Choose from 1 to 8 line segments
+- 🎨 **Fully customizable** — Colors, sizes, and display options
+- 🌡️ **Value thresholds** — Change line color dynamically based on metric ranges
+- 🔄 **Reverse direction** — Rotate counter-clockwise
+- 📊 **Real-time display** — Show current value with optional unit suffix in center
+- 🎯 **Smooth animation** — 60 FPS smooth rotation with Retina support and configurable inertia
+- ⚙️ **Easy configuration** — Intuitive settings panel
 
 ## Compatibility
 
