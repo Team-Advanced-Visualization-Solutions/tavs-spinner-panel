@@ -149,5 +149,11 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         path: 'valueColor',
         name: 'Value color',
         defaultValue: '#ffffff',
+      })
+      .addTextInput({
+        path: 'valueUnit',
+        name: 'Value unit',
+        description: 'Unit suffix displayed after the value (e.g. %, MB/s, °C)',
+        defaultValue: '',
       });
   });

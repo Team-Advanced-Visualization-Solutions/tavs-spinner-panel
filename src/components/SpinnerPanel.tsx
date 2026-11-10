@@ -173,7 +173,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
             pointerEvents: 'none',
           }}
         >
-          {valueRef.current.toFixed(0)}
+          {valueRef.current.toFixed(0)}{options.valueUnit ? ` ${options.valueUnit}` : ''}
         </div>
       )}
     </div>

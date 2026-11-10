@@ -18,6 +18,7 @@ export interface SpinnerOptions {
   showValue: boolean;
   valueFontSize: number;
   valueColor: string;
+  valueUnit: string;
   changeColorAtMax?: boolean;
   maxValueColor: string;
   thresholds: Threshold[];
