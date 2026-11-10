@@ -23,22 +23,23 @@ jobs:
 
       - run: npm run build
 
-      - name: Sign plugin
+      - name: Sign plugin (CI)
+        id: sign
         env:
           GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
         run: npm run sign
+        continue-on-error: true
 
       - name: Verify signature
+        id: verify
         run: |
-          if [ ! -f dist/MANIFEST.txt ]; then
-            echo "WARNING: Plugin was not signed by CI."
-            echo "Please sign locally and upload the zip to the release manually:"
-            echo "  npm run build"
-            echo "  npm run sign"
-            echo "  cd dist && zip -r ../tavs-spinner-panel-\$(git describe --tags).zip ."
-            exit 1
+          if [ -f dist/MANIFEST.txt ]; then
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+            echo "Signature verified."
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "WARNING: CI signing failed. Please sign locally and upload the zip manually."
           fi
-          echo "Signature verified."
 
       - run: |
           cd dist
@@ -48,3 +49,5 @@ jobs:
         with:
           files: tavs-spinner-panel-${{ github.ref_name }}.zip
           generate_release_notes: true
+          body: |
+            ${{ steps.verify.outputs.signed == 'true' && '✅ Plugin is signed.' || '⚠️ Plugin was NOT signed by CI. Please download and replace with a locally signed build if needed.' }}
