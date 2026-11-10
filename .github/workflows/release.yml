@@ -25,16 +25,17 @@ jobs:
 
       - name: Sign plugin
         env:
-          RAW_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
-        run: |
-          export GRAFANA_ACCESS_POLICY_TOKEN=$(echo "$RAW_TOKEN" | xargs)
-          echo "Token length after trim: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
-          npx --yes @grafana/sign-plugin@4
+          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: npx --yes @grafana/sign-plugin@4
 
       - name: Verify signature
         run: |
           if [ ! -f dist/MANIFEST.txt ]; then
-            echo "ERROR: Plugin was not signed. MANIFEST.txt is missing."
+            echo "WARNING: Plugin was not signed by CI."
+            echo "Please sign locally and upload the zip to the release manually:"
+            echo "  npm run build"
+            echo "  npm run sign"
+            echo "  cd dist && zip -r ../tavs-spinner-panel-\$(git describe --tags).zip ."
             exit 1
           fi
           echo "Signature verified."
