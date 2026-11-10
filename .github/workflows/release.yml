@@ -23,6 +23,17 @@ jobs:
 
       - run: npm run build
 
+      - name: Debug token
+        env:
+          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: |
+          echo "Token length: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
+          if [ -z "$GRAFANA_ACCESS_POLICY_TOKEN" ]; then
+            echo "ERROR: GRAFANA_ACCESS_POLICY_TOKEN is empty or not set!"
+            echo "Add it at: https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/settings/secrets/actions"
+            exit 1
+          fi
+
       - name: Sign plugin
         env:
           GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
@@ -32,7 +43,6 @@ jobs:
         run: |
           if [ ! -f dist/MANIFEST.txt ]; then
             echo "ERROR: Plugin was not signed. MANIFEST.txt is missing."
-            echo "Make sure GRAFANA_ACCESS_POLICY_TOKEN is set in repository secrets."
             exit 1
           fi
           echo "Signature verified."
