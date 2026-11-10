@@ -27,6 +27,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
   const animationRef = useRef<number | undefined>(undefined);
   const rotationRef = useRef<number>(0);
   const valueRef = useRef<number>(0);
+  const currentSpeedRef = useRef<number>(0);
 
   const getValue = useCallback(() => {
     if (!data.series.length || !data.series[0].fields.length) {
@@ -84,9 +85,10 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
 
       const value = getValue();
       valueRef.current = value;
-      const speed = calculateSpeed(value) * (options.reverseDirection ? -1 : 1);
+      const targetSpeed = calculateSpeed(value) * (options.reverseDirection ? -1 : 1);
+      currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * options.smoothFactor;
 
-      rotationRef.current = (rotationRef.current + speed * (deltaTime / 1000) * 6) % 360;
+      rotationRef.current = (rotationRef.current + currentSpeedRef.current * (deltaTime / 1000) * 6) % 360;
 
       const centerX = cssWidth / 2;
       const centerY = cssHeight / 2;

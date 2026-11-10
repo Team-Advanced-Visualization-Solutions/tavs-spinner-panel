@@ -40,6 +40,17 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
           step: 1,
         },
       })
+      .addNumberInput({
+        path: 'smoothFactor',
+        name: 'Speed smoothing',
+        description: 'Interpolation factor for speed changes (1 = instant, 0.01 = very smooth)',
+        defaultValue: 1,
+        settings: {
+          min: 0.01,
+          max: 1,
+          step: 0.01,
+        },
+      })
       .addBooleanSwitch({
         path: 'reverseDirection',
         name: 'Reverse direction',

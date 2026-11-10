@@ -8,6 +8,7 @@ export interface SpinnerOptions {
   maxValue: number;
   minSpeed: number;
   maxSpeed: number;
+  smoothFactor: number;
   lineWidth: number;
   lineColor: string;
   segmentsCount: number;
