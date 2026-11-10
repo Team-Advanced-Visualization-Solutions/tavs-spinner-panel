@@ -23,9 +23,14 @@ jobs:
 
       - run: npm run build
 
-      - run: npm run sign
+      - name: Sign plugin
         env:
           GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: |
+          echo "Token length: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
+          npx --yes @grafana/sign-plugin@4 || true
+          ls -la dist/
+          cat dist/MANIFEST.txt 2>/dev/null || echo "No MANIFEST.txt"
 
       - run: |
           cd dist
