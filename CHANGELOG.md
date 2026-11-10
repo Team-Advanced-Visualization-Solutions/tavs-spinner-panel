@@ -1,5 +1,9 @@
 # Changelog
 
-## 1.0.0 (Unreleased)
+## 1.1.0 (Unreleased)
+
+### Enhancements
+
+## 1.0.0
 
 Initial release.
