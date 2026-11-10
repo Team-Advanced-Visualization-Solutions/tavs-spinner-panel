@@ -42,13 +42,18 @@ npm run build
 # Copy dist/ to your plugins directory
 ```
 
-## Signing the plugin
+## Release
 
-To create a signed release locally (requires a [Grafana.com API key](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/)):
+Releases are built and signed automatically via GitHub Actions when a version tag is pushed.
+
+```bash
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+To sign locally (requires a [Grafana.com API key](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/)):
 
 ```bash
 npm run build
 npm run sign
 ```
-
-Releases are also signed automatically via GitHub Actions when a version tag (`v*`) is pushed.
