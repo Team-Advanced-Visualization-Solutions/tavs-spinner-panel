@@ -23,21 +23,13 @@ jobs:
 
       - run: npm run build
 
-      - name: Debug token
-        env:
-          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
-        run: |
-          echo "Token length: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
-          if [ -z "$GRAFANA_ACCESS_POLICY_TOKEN" ]; then
-            echo "ERROR: GRAFANA_ACCESS_POLICY_TOKEN is empty or not set!"
-            echo "Add it at: https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/settings/secrets/actions"
-            exit 1
-          fi
-
       - name: Sign plugin
         env:
-          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
-        run: npx --yes @grafana/sign-plugin@4
+          RAW_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: |
+          export GRAFANA_ACCESS_POLICY_TOKEN=$(echo "$RAW_TOKEN" | xargs)
+          echo "Token length after trim: ${#GRAFANA_ACCESS_POLICY_TOKEN}"
+          npx --yes @grafana/sign-plugin@4
 
       - name: Verify signature
         run: |
