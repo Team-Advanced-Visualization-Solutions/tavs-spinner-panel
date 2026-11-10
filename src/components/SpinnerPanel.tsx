@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SpinnerOptions } from '../types';
 
@@ -6,11 +6,11 @@ interface Props extends PanelProps<SpinnerOptions> {}
 
 export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
-  const [currentValue, setCurrentValue] = useState<number>(0);
-  const [rotation, setRotation] = useState<number>(0);
+  const rotationRef = useRef<number>(0);
+  const valueRef = useRef<number>(0);
 
-  // Получение значения из данных
   const getValue = useCallback(() => {
     if (!data.series.length || !data.series[0].fields.length) {
       return 0;
@@ -24,7 +24,6 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
     return field.values[field.values.length - 1];
   }, [data]);
 
-  // Расчет скорости вращения
   const calculateSpeed = useCallback(
     (value: number) => {
       const normalized = Math.max(options.minValue, Math.min(options.maxValue, value));
@@ -34,40 +33,10 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
     [options.minValue, options.maxValue, options.minSpeed, options.maxSpeed]
   );
 
-  // Анимация
-  useEffect(() => {
-    let lastTime = 0;
-
-    const animate = (time: number) => {
-      if (!lastTime) {
-        lastTime = time;
-      }
-
-      const deltaTime = time - lastTime;
-      lastTime = time;
-
-      const value = getValue();
-      setCurrentValue(value);
-      const speed = calculateSpeed(value);
-
-      setRotation((prev) => (prev + speed * (deltaTime / 1000) * 6) % 360);
-
-      animationRef.current = requestAnimationFrame((time) => animate(time));
-    };
-
-    animationRef.current = requestAnimationFrame((time) => animate(time));
-
-    return () => {
-      if (animationRef.current !== undefined) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [getValue, calculateSpeed]);
-
-  // Отрисовка на canvas
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) {
+    const container = containerRef.current;
+    if (!canvas || !container) {
       return;
     }
 
@@ -76,51 +45,87 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
       return;
     }
 
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - options.lineWidth;
+    // Handle high-DPI (Retina) displays
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth = width;
+    const cssHeight = height;
 
-    // Очистка Canvas
-    ctx.clearRect(0, 0, width, height);
+    canvas.width = cssWidth * dpr;
+    canvas.height = cssHeight * dpr;
+    canvas.style.width = `${cssWidth}px`;
+    canvas.style.height = `${cssHeight}px`;
+    ctx.scale(dpr, dpr);
 
-    // Фон
-    if (options.backgroundColor && options.backgroundColor !== 'transparent') {
-      ctx.fillStyle = options.backgroundColor;
-      ctx.fillRect(0, 0, width, height);
-    }
+    let lastTime = 0;
 
-    // Логика изменения цвета
-    const lineColor =
-      options.changeColorAtMax && currentValue >= options.maxValue ? options.maxValueColor : options.lineColor;
+    const render = (time: number) => {
+      if (!lastTime) {
+        lastTime = time;
+      }
 
-    // Рисуем линии
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate((rotation * Math.PI) / 180);
+      const deltaTime = time - lastTime;
+      lastTime = time;
 
-    ctx.strokeStyle = lineColor; // Динамический цвет
-    ctx.lineWidth = options.lineWidth;
-    ctx.lineCap = options.roundedCaps ? 'round' : 'butt'; // Квадратные или скругленные концы
+      const value = getValue();
+      valueRef.current = value;
+      const speed = calculateSpeed(value);
 
-    // Рисуем несколько отрезков
-    const totalCircle = 2 * Math.PI; // Полная окружность в радианах
-    const gapRadians = (options.segmentsGap * Math.PI) / 180; // Промежуток в радианах
-    const segmentLength = (totalCircle - options.segmentsCount * gapRadians) / options.segmentsCount;
+      rotationRef.current = (rotationRef.current + speed * (deltaTime / 1000) * 6) % 360;
 
-    for (let i = 0; i < options.segmentsCount; i++) {
-      const startAngle = i * (segmentLength + gapRadians);
-      const endAngle = startAngle + segmentLength;
+      const centerX = cssWidth / 2;
+      const centerY = cssHeight / 2;
+      const radius = Math.min(cssWidth, cssHeight) / 2 - options.lineWidth;
 
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, startAngle, endAngle);
-      ctx.stroke();
-    }
+      ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    ctx.restore();
-  }, [width, height, rotation, options, currentValue]);
+      if (options.backgroundColor && options.backgroundColor !== 'transparent') {
+        ctx.fillStyle = options.backgroundColor;
+        ctx.fillRect(0, 0, cssWidth, cssHeight);
+      }
+
+      const lineColor =
+        options.changeColorAtMax && value >= options.maxValue
+          ? options.maxValueColor
+          : options.lineColor;
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate((rotationRef.current * Math.PI) / 180);
+
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = options.lineWidth;
+      ctx.lineCap = options.roundedCaps ? 'round' : 'butt';
+
+      const totalCircle = 2 * Math.PI;
+      const gapRadians = (options.segmentsGap * Math.PI) / 180;
+      const segmentLength = (totalCircle - options.segmentsCount * gapRadians) / options.segmentsCount;
+
+      for (let i = 0; i < options.segmentsCount; i++) {
+        const startAngle = i * (segmentLength + gapRadians);
+        const endAngle = startAngle + segmentLength;
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, startAngle, endAngle);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      animationRef.current = requestAnimationFrame(render);
+    };
+
+    animationRef.current = requestAnimationFrame(render);
+
+    return () => {
+      if (animationRef.current !== undefined) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [width, height, options, getValue, calculateSpeed]);
 
   return (
     <div
+      ref={containerRef}
       style={{
         width,
         height,
@@ -130,13 +135,11 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
         position: 'relative',
         background: options.backgroundColor || 'transparent',
         overflow: 'hidden',
-        cursor: 'default', // Устанавливаем курсор по умолчанию
+        cursor: 'default',
       }}
     >
       <canvas
         ref={canvasRef}
-        width={width}
-        height={height}
         style={{
           position: 'absolute',
           top: 0,
@@ -152,13 +155,12 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)',
             zIndex: 10,
             textAlign: 'center',
-            pointerEvents: 'none', // Отключаем взаимодействие с текстом
+            pointerEvents: 'none',
           }}
         >
-          {currentValue.toFixed(0)}
+          {valueRef.current.toFixed(0)}
         </div>
       )}
     </div>
   );
 };
-
