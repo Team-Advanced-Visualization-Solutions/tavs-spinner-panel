@@ -1,3 +1,8 @@
+export interface Threshold {
+  color: string;
+  value: number;
+}
+
 export interface SpinnerOptions {
   minValue: number;
   maxValue: number;
@@ -14,4 +19,6 @@ export interface SpinnerOptions {
   valueColor: string;
   changeColorAtMax?: boolean;
   maxValueColor: string;
+  thresholds: Threshold[];
+  reverseDirection: boolean;
 }

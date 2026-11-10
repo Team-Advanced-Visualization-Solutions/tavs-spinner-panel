@@ -1,6 +1,7 @@
 import { PanelPlugin } from '@grafana/data';
 import { SpinnerOptions } from './types';
 import { SpinnerPanel } from './components/SpinnerPanel';
+import { ThresholdsEditor } from './components/ThresholdsEditor';
 
 export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
   .setPanelOptions((builder) => {
@@ -39,6 +40,12 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
           step: 1,
         },
       })
+      .addBooleanSwitch({
+        path: 'reverseDirection',
+        name: 'Reverse direction',
+        description: 'Rotate counter-clockwise instead of clockwise',
+        defaultValue: false,
+      })
       .addNumberInput({
         path: 'lineWidth',
         name: 'Line thickness',
@@ -46,15 +53,23 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         defaultValue: 10,
         settings: {
           min: 1,
-          max: 40, 
+          max: 40,
           step: 1,
         },
       })
       .addColorPicker({
         path: 'lineColor',
         name: 'Line color',
-        description: 'Color of the rotating segments',
+        description: 'Default color of the rotating segments',
         defaultValue: '#137a13ff',
+      })
+      .addCustomEditor({
+        id: 'thresholds',
+        path: 'thresholds',
+        name: 'Thresholds',
+        description: 'Change line color based on value thresholds',
+        editor: ThresholdsEditor,
+        defaultValue: [],
       })
       .addBooleanSwitch({
         path: 'changeColorAtMax',
@@ -66,14 +81,14 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         path: 'maxValueColor',
         name: 'Color at maximum',
         description: 'Line color when the value reaches the maximum',
-        defaultValue: '#ff0000', 
-        showIf: (options) => options.changeColorAtMax, // Show only if the switch is enabled
+        defaultValue: '#ff0000',
+        showIf: (options) => options.changeColorAtMax,
       })
       .addNumberInput({
         path: 'segmentsCount',
         name: 'Number of segments',
         description: 'Number of parts to divide the line into (1-8)',
-        defaultValue: 5, 
+        defaultValue: 5,
         settings: {
           min: 1,
           max: 8,
@@ -84,10 +99,10 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         path: 'segmentsGap',
         name: 'Gap between segments',
         description: 'Size of the gap between segments in degrees (0-45)',
-        defaultValue: 20, 
+        defaultValue: 20,
         settings: {
           min: 0,
-          max: 45, 
+          max: 45,
           step: 1,
         },
       })
@@ -95,7 +110,7 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         path: 'roundedCaps',
         name: 'Rounded ends',
         description: 'Round the ends of the segments',
-        defaultValue: true, 
+        defaultValue: true,
       })
       .addColorPicker({
         path: 'backgroundColor',
@@ -115,7 +130,7 @@ export const plugin = new PanelPlugin<SpinnerOptions>(SpinnerPanel)
         defaultValue: 14,
         settings: {
           min: 1,
-          max: 24, 
+          max: 24,
           step: 1,
         },
       })

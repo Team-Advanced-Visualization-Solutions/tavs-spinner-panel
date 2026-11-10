@@ -4,6 +4,23 @@ import { SpinnerOptions } from '../types';
 
 interface Props extends PanelProps<SpinnerOptions> {}
 
+function resolveLineColor(value: number, options: SpinnerOptions): string {
+  if (options.thresholds && options.thresholds.length > 0) {
+    const sorted = [...options.thresholds].sort((a, b) => b.value - a.value);
+    for (const t of sorted) {
+      if (value >= t.value) {
+        return t.color;
+      }
+    }
+  }
+
+  if (options.changeColorAtMax && value >= options.maxValue) {
+    return options.maxValueColor;
+  }
+
+  return options.lineColor;
+}
+
 export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -45,7 +62,6 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
       return;
     }
 
-    // Handle high-DPI (Retina) displays
     const dpr = window.devicePixelRatio || 1;
     const cssWidth = width;
     const cssHeight = height;
@@ -68,7 +84,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
 
       const value = getValue();
       valueRef.current = value;
-      const speed = calculateSpeed(value);
+      const speed = calculateSpeed(value) * (options.reverseDirection ? -1 : 1);
 
       rotationRef.current = (rotationRef.current + speed * (deltaTime / 1000) * 6) % 360;
 
@@ -83,10 +99,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
         ctx.fillRect(0, 0, cssWidth, cssHeight);
       }
 
-      const lineColor =
-        options.changeColorAtMax && value >= options.maxValue
-          ? options.maxValueColor
-          : options.lineColor;
+      const lineColor = resolveLineColor(value, options);
 
       ctx.save();
       ctx.translate(centerX, centerY);
