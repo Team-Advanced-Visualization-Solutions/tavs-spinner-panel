@@ -41,13 +41,20 @@ jobs:
             echo "WARNING: CI signing failed. Please sign locally and upload the zip manually."
           fi
 
-      - run: |
+      - name: Package plugin
+        run: |
           cd dist
           zip -r ../tavs-spinner-panel-${{ github.ref_name }}.zip .
 
+      - name: Generate SHA1 checksum
+        run: |
+          sha1sum tavs-spinner-panel-${{ github.ref_name }}.zip > tavs-spinner-panel-${{ github.ref_name }}.zip.sha1
+
       - uses: softprops/action-gh-release@v1
         with:
-          files: tavs-spinner-panel-${{ github.ref_name }}.zip
+          files: |
+            tavs-spinner-panel-${{ github.ref_name }}.zip
+            tavs-spinner-panel-${{ github.ref_name }}.zip.sha1
           generate_release_notes: true
           body: |
             ${{ steps.verify.outputs.signed == 'true' && '✅ Plugin is signed.' || '⚠️ Plugin was NOT signed by CI. Please download and replace with a locally signed build if needed.' }}
