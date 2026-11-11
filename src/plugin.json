@@ -26,6 +26,10 @@
       {
         "name": "License",
         "url": "https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/blob/main/LICENSE"
+      },
+      {
+        "name": "Donate",
+        "url": "https://app.lava.top/3653067994?tabId=donate"
       }
     ],
     "screenshots": [
@@ -38,7 +42,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=10.4.0",
+    "grafanaDependency": ">=12.2.0",
     "plugins": []
   }
 }

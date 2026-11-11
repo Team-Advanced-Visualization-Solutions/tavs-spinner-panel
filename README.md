@@ -57,3 +57,13 @@ To sign locally (requires a [Grafana.com API key](https://grafana.com/docs/grafa
 npm run build
 npm run sign
 ```
+
+## Support the Project
+
+If you find this plugin useful, consider supporting its development:
+
+[![Donate](https://img.shields.io/badge/Donate-Lava.top-orange.svg)](https://app.lava.top/3653067994?tabId=donate)
+
+[💰 Make a donation via Lava.top](https://app.lava.top/3653067994?tabId=donate)
+
+Your support helps maintain and improve the plugin with new features and updates.
