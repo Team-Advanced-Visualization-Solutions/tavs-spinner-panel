@@ -22,7 +22,7 @@
 
 ### 3. Build & Tooling Updates
 - Updated `@grafana/create-plugin` from `5.26.1` → `5.27.1`
-- Updated `@grafana` packages to `12.2.0`
+- Updated `@grafana` packages to `12.2.0` (later bumped to `13.3.1` for security fixes)
 - Migrated ESLint to v9 flat config
 - Added `@grafana/sign-plugin@4` as devDependency
 - Fixed release workflow to generate SHA1 checksums
@@ -47,6 +47,53 @@
 
 ---
 
+## Security Vulnerability Fixes (Grafana Review Round 1)
+
+Received rejection due to osv-scanner detecting critical/high severity vulnerabilities.
+
+### Fix #1 — Dependency Updates
+- `@grafana/*` packages: `12.2.0` → `13.3.1`
+- `react` + `react-dom`: `18.2.0` → `19.0.0`
+- `@testing-library/react`: `14.0.0` → `16.0.0`
+- Fixed `tsconfig.json` ts-node module config (CommonJS + node moduleResolution) for compatibility with TS 5.5
+- Result: reduced from 24 high/critical → 1 remaining high (`serialize-javascript`)
+
+### Fix #2 — Serialize-JavaScript Override
+- `copy-webpack-plugin`: `11.0.0` → `13.0.1`
+- Added `"overrides"` to `package.json`:
+  ```json
+  "overrides": {
+    "serialize-javascript": ">=6.0.3"
+  }
+  ```
+- Result: `npm audit` shows **0 high / 0 critical** vulnerabilities
+
+### Packages Verified Safe (updated versions)
+| Package | Version |
+|---------|---------|
+| browserslist | 4.29.5 |
+| fast-uri | 3.1.9 |
+| form-data | 4.0.6 |
+| js-yaml | 4.3.2 |
+| nanoid | 3.3.20 |
+| postcss | 8.5.32 |
+| serialize-javascript | 6.0.3 |
+| source-map-js | 1.2.2 |
+| websocket-driver | 0.7.5 |
+| ws | 8.22.2 |
+
+---
+
+## Repository Cleanup
+
+Deleted from GitHub to remove clutter:
+- 2x **draft releases** (`v1.1.0` duplicates from earlier attempts)
+- `update-grafana-create-plugin-5.26.9` branch (auto-generated)
+- `update-grafana-create-plugin-6.1.5` branch (auto-generated)
+- `gh-pages` branch (unused)
+
+---
+
 ## Release v1.1.0
 
 **GitHub Release:** https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/releases/tag/v1.1.0
@@ -55,7 +102,7 @@
 - `tavs-spinner-panel-1.1.0.zip` (79 KB) — signed plugin
 - `tavs-spinner-panel-1.1.0.zip.sha1` — checksum
 
-**Current SHA1:** `7006180ec1615fc2ba5507c9f5ebc921a34f1cfd`
+**Current SHA1:** `55e3938777f6318e2d3b28a2825fdb4df8cb7cf4`
 
 ---
 
@@ -86,7 +133,7 @@
 **Submitted:** 2026-11-11
 **Type:** Update from v1.0.0 → v1.1.0
 **Expected review time:** 1–3 business days
-**Status:** Pending review
+**Status:** ✅ Validation passed — awaiting manual review from Grafana Labs
 
 ---
 
