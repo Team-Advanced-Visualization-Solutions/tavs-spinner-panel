@@ -1,5 +1,11 @@
 # TAVS Spinner Panel for Grafana
 
+[![Version](https://img.shields.io/github/v/release/Team-Advanced-Visualization-Solutions/tavs-spinner-panel)](https://github.com/Team-Advanced-Visualization-Solutions/tavs-spinner-panel/releases)
+[![License](https://img.shields.io/github/license/Team-Advanced-Visualization-Solutions/tavs-spinner-panel)](LICENSE)
+[![Grafana](https://img.shields.io/badge/Grafana-%3E%3D12.2.0-orange?logo=grafana)](https://grafana.com)
+[![Signed](https://img.shields.io/badge/Signed-Community-brightgreen)](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/)
+[![Donate](https://img.shields.io/badge/Donate-Lava.top-red)](https://app.lava.top/3653067994?tabId=donate)
+
 Animated spinner panel with rotation speed based on metric values. Perfect for visualizing real-time metrics with dynamic animation.
 
 ## Features
@@ -67,3 +73,7 @@ If you find this plugin useful, consider supporting its development:
 [💰 Make a donation via Lava.top](https://app.lava.top/3653067994?tabId=donate)
 
 Your support helps maintain and improve the plugin with new features and updates.
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
