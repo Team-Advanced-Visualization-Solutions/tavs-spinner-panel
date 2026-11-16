@@ -26,7 +26,6 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const rotationRef = useRef<number>(0);
-  const valueRef = useRef<number>(0);
   const currentSpeedRef = useRef<number>(0);
 
   const getValue = useCallback(() => {
@@ -84,7 +83,6 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
       lastTime = time;
 
       const value = getValue();
-      valueRef.current = value;
       const targetSpeed = calculateSpeed(value) * (options.reverseDirection ? -1 : 1);
       currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * options.smoothFactor;
 
@@ -138,6 +136,8 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
     };
   }, [width, height, options, getValue, calculateSpeed]);
 
+  const displayValue = getValue();
+
   return (
     <div
       ref={containerRef}
@@ -173,7 +173,7 @@ export const SpinnerPanel: React.FC<Props> = ({ options, data, width, height }) 
             pointerEvents: 'none',
           }}
         >
-          {valueRef.current.toFixed(0)}{options.valueUnit ? ` ${options.valueUnit}` : ''}
+          {displayValue.toFixed(0)}{options.valueUnit ? ` ${options.valueUnit}` : ''}
         </div>
       )}
     </div>
